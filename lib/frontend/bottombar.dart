@@ -2,16 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyBottomBar extends StatefulWidget {
-  MyBottomBar({Key key, this.title}) : super(key: key);
+  final Function() notifyParentGood;
+  final Function() notifyParentBad;
 
-  final String title;
+  MyBottomBar(
+      {Key key,
+      @required this.notifyParentGood,
+      @required this.notifyParentBad})
+      : super(key: key);
 
   @override
   _MyBottomBarState createState() => _MyBottomBarState();
 }
 
 class _MyBottomBarState extends State<MyBottomBar> {
-  int segmentedControlInt = 1;
+  int segmentedControlInt = 0;
   final Map<int, Widget> myTabs = const <int, Widget>{
     0: Text("Titles"),
     1: Text("Abstracts")
@@ -23,7 +28,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         FloatingActionButton(
-          onPressed: null,
+          onPressed: widget.notifyParentBad,
           backgroundColor: Colors.red,
           child: Icon(Icons.thumb_down),
         ),
@@ -38,7 +43,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
           },
         ),
         FloatingActionButton(
-          onPressed: null,
+          onPressed: widget.notifyParentGood,
           backgroundColor: Colors.green,
           child: Icon(Icons.thumb_up),
         )

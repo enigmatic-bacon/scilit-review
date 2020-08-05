@@ -27,15 +27,22 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SciCard(),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
+              MyBottomBar(
+                notifyParentGood: cardGood,
+                notifyParentBad: cardBad,
               ),
-              MyBottomBar(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void cardGood() {
+    print('GOOD');
+  }
+
+  void cardBad() {
+    print('BAD');
   }
 }
