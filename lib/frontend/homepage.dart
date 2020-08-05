@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -26,14 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Expanded(
-                child: Card(
-                  margin: EdgeInsets.all(20.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                  ),
-                ),
-              ),
+              SciCard(),
               Text(
                 '$_counter',
                 style: Theme.of(context).textTheme.headline4,
