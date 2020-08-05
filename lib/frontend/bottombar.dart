@@ -12,27 +12,10 @@ class MyBottomBar extends StatefulWidget {
 
 class _MyBottomBarState extends State<MyBottomBar> {
   int segmentedControlInt = 1;
-  int _counter = 0;
   final Map<int, Widget> myTabs = const <int, Widget>{
     0: Text("Titles"),
     1: Text("Abstracts")
   };
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
-
-  int getCounter() {
-    return _counter;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +23,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         FloatingActionButton(
-          onPressed: _decrementCounter,
+          onPressed: null,
           backgroundColor: Colors.red,
           child: Icon(Icons.thumb_down),
         ),
@@ -55,7 +38,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
           },
         ),
         FloatingActionButton(
-          onPressed: _incrementCounter,
+          onPressed: null,
           backgroundColor: Colors.green,
           child: Icon(Icons.thumb_up),
         )
