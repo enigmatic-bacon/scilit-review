@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
+import 'settingswitch.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -34,12 +35,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   : SciCard(
                       text: abstracts[_paperIndex],
                     ),
+              SettingSwitch(
+                switchToTitles: switchToTitles,
+                switchToAbstracts: switchToAbstracts,
+              ),
               MyBottomBar(
                 notifyParentGood: cardGood,
                 notifyParentBad: cardBad,
                 goBack: previousCard,
-                switchToTitles: switchToTitles,
-                switchToAbstracts: switchToAbstracts,
               ),
             ],
           ),
