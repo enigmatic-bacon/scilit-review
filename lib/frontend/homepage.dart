@@ -48,6 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cardGood() {
+    titles.add('TITLE ${_paperIndex + 4}');
+    abstracts.add('ABSTRACT ${_paperIndex + 4}');
     setState(() {
       _paperIndex++;
     });
