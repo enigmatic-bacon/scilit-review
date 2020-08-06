@@ -12,6 +12,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _paperIndex = 0;
+  bool _showingTitles = true;
   List<String> titles = ['TITLE 1', 'TITLE 2', 'TITLE 3'];
   List<String> abstracts = ['ABSTRACT 1', 'ABSTRACT 2', 'ABSTRACT 3'];
   @override
@@ -26,10 +27,13 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SciCard(
-                title: titles[_paperIndex],
-                abstract: abstracts[_paperIndex],
-              ),
+              _showingTitles == true
+                  ? SciCard(
+                      text: titles[_paperIndex],
+                    )
+                  : SciCard(
+                      text: abstracts[_paperIndex],
+                    ),
               MyBottomBar(
                 notifyParentGood: cardGood,
                 notifyParentBad: cardBad,
@@ -54,10 +58,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void switchToTitles() {
+    setState(() {
+      _showingTitles = true;
+    });
     print('TITLES');
   }
 
   void switchToAbstracts() {
+    setState(() {
+      _showingTitles = false;
+    });
     print('ABSTRACTS');
   }
 }
