@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class MyBottomBar extends StatefulWidget {
   final Function() notifyParentGood;
   final Function() notifyParentBad;
+  final Function() goBack;
   final Function() switchToTitles;
   final Function() switchToAbstracts;
 
@@ -11,6 +12,7 @@ class MyBottomBar extends StatefulWidget {
     Key key,
     @required this.notifyParentGood,
     @required this.notifyParentBad,
+    @required this.goBack,
     @required this.switchToTitles,
     @required this.switchToAbstracts,
   }) : super(key: key);
@@ -35,6 +37,11 @@ class _MyBottomBarState extends State<MyBottomBar> {
           onPressed: widget.notifyParentBad,
           backgroundColor: Colors.red,
           child: Icon(Icons.thumb_down),
+        ),
+        FloatingActionButton(
+          onPressed: widget.goBack,
+          backgroundColor: Colors.amber,
+          child: Icon(Icons.history),
         ),
         CupertinoSlidingSegmentedControl(
           padding: EdgeInsets.all(8.0),

@@ -37,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
               MyBottomBar(
                 notifyParentGood: cardGood,
                 notifyParentBad: cardBad,
+                goBack: previousCard,
                 switchToTitles: switchToTitles,
                 switchToAbstracts: switchToAbstracts,
               ),
@@ -56,7 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cardBad() {
-    print('BAD');
+    titles.add('TITLE ${_paperIndex + 4}');
+    abstracts.add('ABSTRACT ${_paperIndex + 4}');
+    setState(() {
+      _paperIndex++;
+    });
+  }
+
+  void previousCard() {
+    setState(() {
+      _paperIndex--;
+    });
   }
 
   void switchToTitles() {
