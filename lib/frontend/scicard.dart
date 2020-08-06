@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class SciCard extends StatefulWidget {
-  SciCard({Key key}) : super(key: key);
+  SciCard({Key key, @required this.title, @required this.abstract})
+      : super(key: key);
+  final String title;
+  final String abstract;
 
   @override
   _SciCardState createState() => _SciCardState();
 }
 
 class _SciCardState extends State<SciCard> {
-  int _cardNumber = 5;
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -19,7 +20,7 @@ class _SciCardState extends State<SciCard> {
           padding: const EdgeInsets.all(20.0),
           child: SizedBox(
             width: double.infinity,
-            child: Text('value is $_cardNumber'),
+            child: Text(widget.title),
           ),
         ),
       ),

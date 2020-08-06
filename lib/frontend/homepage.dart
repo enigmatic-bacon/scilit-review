@@ -11,6 +11,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _paperIndex = 0;
+  List<String> titles = ['TITLE 1', 'TITLE 2', 'TITLE 3'];
+  List<String> abstracts = ['ABSTRACT 1', 'ABSTRACT 2', 'ABSTRACT 3'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +26,15 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SciCard(),
+              SciCard(
+                title: titles[_paperIndex],
+                abstract: abstracts[_paperIndex],
+              ),
               MyBottomBar(
                 notifyParentGood: cardGood,
                 notifyParentBad: cardBad,
+                switchToTitles: switchToTitles,
+                switchToAbstracts: switchToAbstracts,
               ),
             ],
           ),
@@ -36,10 +44,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cardGood() {
-    print('GOOD');
+    setState(() {
+      _paperIndex++;
+    });
   }
 
   void cardBad() {
     print('BAD');
+  }
+
+  void switchToTitles() {
+    print('TITLES');
+  }
+
+  void switchToAbstracts() {
+    print('ABSTRACTS');
   }
 }

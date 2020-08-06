@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 class MyBottomBar extends StatefulWidget {
   final Function() notifyParentGood;
   final Function() notifyParentBad;
+  final Function() switchToTitles;
+  final Function() switchToAbstracts;
 
-  MyBottomBar(
-      {Key key,
-      @required this.notifyParentGood,
-      @required this.notifyParentBad})
-      : super(key: key);
+  MyBottomBar({
+    Key key,
+    @required this.notifyParentGood,
+    @required this.notifyParentBad,
+    @required this.switchToTitles,
+    @required this.switchToAbstracts,
+  }) : super(key: key);
 
   @override
   _MyBottomBarState createState() => _MyBottomBarState();
@@ -37,9 +41,16 @@ class _MyBottomBarState extends State<MyBottomBar> {
           groupValue: segmentedControlInt,
           children: myTabs,
           onValueChanged: (i) {
-            setState(() {
-              segmentedControlInt = i;
-            });
+            if (i != segmentedControlInt) {
+              if (i == 0) {
+                widget.switchToTitles();
+              } else {
+                widget.switchToAbstracts();
+              }
+              setState(() {
+                segmentedControlInt = i;
+              });
+            }
           },
         ),
         FloatingActionButton(
