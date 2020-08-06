@@ -25,7 +25,7 @@ class _SettingSwitchState extends State<SettingSwitch> {
   @override
   Widget build(BuildContext context) {
     return CupertinoSlidingSegmentedControl(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(4.0),
       groupValue: segmentedControlInt,
       children: myTabs,
       onValueChanged: (i) {

@@ -24,17 +24,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 36.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _showingTitles == true
-                  ? SciCard(
-                      text: titles[_paperIndex],
-                    )
-                  : SciCard(
-                      text: abstracts[_paperIndex],
-                    ),
+              if (_showingTitles == true)
+                SciCard(
+                  text: titles[_paperIndex],
+                )
+              else
+                SciCard(
+                  text: abstracts[_paperIndex],
+                ),
               SettingSwitch(
                 switchToTitles: switchToTitles,
                 switchToAbstracts: switchToAbstracts,
