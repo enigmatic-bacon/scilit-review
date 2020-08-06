@@ -8,6 +8,8 @@ class SciCard extends StatefulWidget {
 }
 
 class _SciCardState extends State<SciCard> {
+  int _cardNumber = 5;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -17,7 +19,7 @@ class _SciCardState extends State<SciCard> {
           padding: const EdgeInsets.all(20.0),
           child: SizedBox(
             width: double.infinity,
-            child: Text('TITLE'),
+            child: Text('value is $_cardNumber'),
           ),
         ),
       ),
