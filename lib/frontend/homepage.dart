@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
 import 'settingswitch.dart';
+import 'package:liquid_swipe/Helpers/Helpers.dart';
+import 'package:liquid_swipe/liquid_swipe.dart';
+
+class SciPaper {
+  SciPaper(this.text, this.abstract);
+  String text;
+  String abstract;
+}
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -14,8 +22,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _paperIndex = 0;
   bool _showingTitles = true;
-  List<String> titles = ['TITLE 1', 'TITLE 2', 'TITLE 3'];
-  List<String> abstracts = ['ABSTRACT 1', 'ABSTRACT 2', 'ABSTRACT 3'];
+  List<SciPaper> allPapers = [SciPaper('TITLE 1', 'ABSTRACT 1')];
+  List<SciPaper> approvedPapers = [];
+  List<SciPaper> rejectedPapers = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +40,11 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               if (_showingTitles == true)
                 SciCard(
-                  text: titles[_paperIndex],
+                  text: allPapers[_paperIndex].text,
                 )
               else
                 SciCard(
-                  text: abstracts[_paperIndex],
+                  text: allPapers[_paperIndex].abstract,
                 ),
               SettingSwitch(
                 switchToTitles: switchToTitles,
@@ -53,16 +63,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cardGood() {
-    titles.add('TITLE ${_paperIndex + 4}');
-    abstracts.add('ABSTRACT ${_paperIndex + 4}');
+    allPapers.add(
+        SciPaper('TITLE ${_paperIndex + 1}', 'ABSTRACT ${_paperIndex + 1}'));
+    approvedPapers.add(allPapers[_paperIndex]);
+    print(approvedPapers);
     setState(() {
       _paperIndex++;
     });
   }
 
   void cardBad() {
-    titles.add('TITLE ${_paperIndex + 4}');
-    abstracts.add('ABSTRACT ${_paperIndex + 4}');
+    allPapers.add(
+        SciPaper('TITLE ${_paperIndex + 1}', 'ABSTRACT ${_paperIndex + 1}'));
+    rejectedPapers.add(allPapers[_paperIndex]);
+    print(rejectedPapers);
     setState(() {
       _paperIndex++;
     });
