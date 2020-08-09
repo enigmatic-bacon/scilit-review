@@ -2,14 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
 import 'settingswitch.dart';
-import 'package:liquid_swipe/Helpers/Helpers.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
-
-class SciPaper {
-  SciPaper(this.text, this.abstract);
-  String text;
-  String abstract;
-}
+import '../backend/scipaper.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -22,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _paperIndex = 0;
   bool _showingTitles = true;
-  List<SciPaper> allPapers = [SciPaper('TITLE 1', 'ABSTRACT 1')];
+  List<SciPaper> allPapers = [SciPaper('TITLE 0', 'ABSTRACT 0')];
   List<SciPaper> approvedPapers = [];
   List<SciPaper> rejectedPapers = [];
 
@@ -40,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               if (_showingTitles == true)
                 SciCard(
-                  text: allPapers[_paperIndex].text,
+                  text: allPapers[_paperIndex].title,
                 )
               else
                 SciCard(
@@ -83,9 +76,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void previousCard() {
-    setState(() {
-      _paperIndex--;
-    });
+    _paperIndex--;
+    if (approvedPapers.last.title == allPapers[_paperIndex].title) {
+      approvedPapers.removeLast();
+    } else {
+      rejectedPapers.removeLast();
+    }
+    setState(() {});
   }
 
   void switchToTitles() {
