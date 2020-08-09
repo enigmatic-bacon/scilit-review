@@ -15,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _paperIndex = 0;
   bool _showingTitles = true;
-  List<SciPaper> allPapers = [SciPaper('TITLE 0', 'ABSTRACT 0')];
+  List<SciPaper> allPapers = generateSciPapers();
   List<SciPaper> approvedPapers = [];
   List<SciPaper> rejectedPapers = [];
 
@@ -59,7 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
     allPapers.add(
         SciPaper('TITLE ${_paperIndex + 1}', 'ABSTRACT ${_paperIndex + 1}'));
     approvedPapers.add(allPapers[_paperIndex]);
-    print(approvedPapers);
+    print(approvedPapers.length);
+    print(approvedPapers.last.title);
     setState(() {
       _paperIndex++;
     });
@@ -69,7 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
     allPapers.add(
         SciPaper('TITLE ${_paperIndex + 1}', 'ABSTRACT ${_paperIndex + 1}'));
     rejectedPapers.add(allPapers[_paperIndex]);
-    print(rejectedPapers);
+    print(rejectedPapers.length);
+    print(rejectedPapers.last.title);
     setState(() {
       _paperIndex++;
     });
