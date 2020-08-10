@@ -56,8 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cardGood() {
-    allPapers.add(
-        SciPaper('TITLE ${_paperIndex + 1}', 'ABSTRACT ${_paperIndex + 1}'));
     approvedPapers.add(allPapers[_paperIndex]);
     print(approvedPapers.length);
     print(approvedPapers.last.title);
@@ -67,8 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cardBad() {
-    allPapers.add(
-        SciPaper('TITLE ${_paperIndex + 1}', 'ABSTRACT ${_paperIndex + 1}'));
     rejectedPapers.add(allPapers[_paperIndex]);
     print(rejectedPapers.length);
     print(rejectedPapers.last.title);
