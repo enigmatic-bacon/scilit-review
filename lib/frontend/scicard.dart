@@ -14,6 +14,7 @@ class _SciCardState extends State<SciCard> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Card(
+        elevation: 10.0,
         margin: EdgeInsets.all(20.0),
         child: Padding(
           padding: const EdgeInsets.all(20.0),

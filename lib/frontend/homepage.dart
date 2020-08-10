@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
-import 'settingswitch.dart';
 import '../backend/scipaper.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -45,10 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   SciCard(
                     text: allPapers[_paperIndex].abstract,
                   ),
-                SettingSwitch(
-                  switchToTitles: switchToTitles,
-                  switchToAbstracts: switchToAbstracts,
-                ),
                 MyBottomBar(
                   notifyParentGood: cardGood,
                   notifyParentBad: cardBad,
@@ -62,30 +58,53 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _setColor(Color color) {
+    setState(() {
+      _color = color;
+    });
+  }
+
+  void _getNextPaper() {
+    if (_paperIndex < allPapers.length - 1) {
+      ++_paperIndex;
+    } else {
+      Alert(
+              context: context,
+              title: "Out of Papers",
+              desc: "Have Checked All Papers")
+          .show();
+    }
+  }
+
+  void _getPreviousPaper() {
+    if (_paperIndex > 0) {
+      --_paperIndex;
+    } else {
+      Alert(context: context, title: "First Paper", desc: "Back to the start!")
+          .show();
+    }
+  }
+
   void cardGood() {
     approvedPapers.add(allPapers[_paperIndex]);
-    setState(() {
-      _color = Colors.green[300];
-      _paperIndex++;
-    });
+    _setColor(Colors.green[300]);
+    _getNextPaper();
   }
 
   void cardBad() {
     rejectedPapers.add(allPapers[_paperIndex]);
-    setState(() {
-      _color = Colors.red[300];
-      _paperIndex++;
-    });
+    _setColor(Colors.red[300]);
+    _getNextPaper();
   }
 
   void previousCard() {
-    _paperIndex--;
+    _getPreviousPaper();
     if (approvedPapers.last.title == allPapers[_paperIndex].title) {
       approvedPapers.removeLast();
     } else {
       rejectedPapers.removeLast();
     }
-    setState(() {});
+    _setColor(Colors.amber[300]);
   }
 
   void switchToTitles() {
