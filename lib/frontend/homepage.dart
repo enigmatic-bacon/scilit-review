@@ -13,6 +13,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Color _color = Colors.white;
   int _paperIndex = 0;
   bool _showingTitles = true;
   List<SciPaper> allPapers = generateSciPapers();
@@ -25,30 +26,36 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              if (_showingTitles == true)
-                SciCard(
-                  text: allPapers[_paperIndex].title,
-                )
-              else
-                SciCard(
-                  text: allPapers[_paperIndex].abstract,
+      body: AnimatedContainer(
+        color: _color,
+        onEnd: resetColor,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.ease,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (_showingTitles == true)
+                  SciCard(
+                    text: allPapers[_paperIndex].title,
+                  )
+                else
+                  SciCard(
+                    text: allPapers[_paperIndex].abstract,
+                  ),
+                SettingSwitch(
+                  switchToTitles: switchToTitles,
+                  switchToAbstracts: switchToAbstracts,
                 ),
-              SettingSwitch(
-                switchToTitles: switchToTitles,
-                switchToAbstracts: switchToAbstracts,
-              ),
-              MyBottomBar(
-                notifyParentGood: cardGood,
-                notifyParentBad: cardBad,
-                goBack: previousCard,
-              ),
-            ],
+                MyBottomBar(
+                  notifyParentGood: cardGood,
+                  notifyParentBad: cardBad,
+                  goBack: previousCard,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -57,18 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void cardGood() {
     approvedPapers.add(allPapers[_paperIndex]);
-    print(approvedPapers.length);
-    print(approvedPapers.last.title);
     setState(() {
+      _color = Colors.green[300];
       _paperIndex++;
     });
   }
 
   void cardBad() {
     rejectedPapers.add(allPapers[_paperIndex]);
-    print(rejectedPapers.length);
-    print(rejectedPapers.last.title);
     setState(() {
+      _color = Colors.red[300];
       _paperIndex++;
     });
   }
@@ -87,13 +92,17 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _showingTitles = true;
     });
-    print('TITLES');
   }
 
   void switchToAbstracts() {
     setState(() {
       _showingTitles = false;
     });
-    print('ABSTRACTS');
+  }
+
+  void resetColor() {
+    setState(() {
+      _color = Colors.white;
+    });
   }
 }
