@@ -3,6 +3,7 @@ import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
 import '../backend/scipaper.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -24,7 +25,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title +
+            ' Paper #' +
+            (_paperIndex + 1).toString() +
+            '/' +
+            allPapers.length.toString()),
       ),
       body: AnimatedContainer(
         color: _color,
@@ -45,6 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   SciCard(
                     text: allPapers[_paperIndex].abstract,
                   ),
+                StreamBuilder(
+                    stream: Firestore.instance
+                        .collection('paper_titles')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return const Text('Loading...');
+                      else {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildDocument(context, snapshot.data.documents[0]),
+                            Text('2'),
+                            Text('3'),
+                            Text('4'),
+                          ],
+                        );
+                      }
+                    }),
                 MyBottomBar(
                   notifyParentGood: cardGood,
                   notifyParentBad: cardBad,
@@ -123,5 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _color = Colors.white;
     });
+  }
+
+  Text _buildDocument(BuildContext context, DocumentSnapshot document) {
+    return Text(document['Yes'].toString());
   }
 }
