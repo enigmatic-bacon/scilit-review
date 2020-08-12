@@ -515,6 +515,7 @@ class PaperBrain {
 
   void setContext(BuildContext context) => _context = context;
   int getCurrentPaperIndex() => _paperIndex;
+  int setCurrentPaperIndex(int index) => _paperIndex = index;
   int getNumPapers() => _paperTitles.length;
   String getCurrentPaperTitle() => _paperTitles[_paperIndex];
   bool getNextPaper() {

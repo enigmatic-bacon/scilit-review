@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:scilit/backend/paperBrain.dart';
 
 class MyBottomBar extends StatefulWidget {
   final Function() notifyParentGood;
@@ -46,8 +45,6 @@ class _MyBottomBarState extends State<MyBottomBar> {
             setState(() {
               widget.notifyParentGood();
             });
-
-            print('ehllo');
           },
           backgroundColor: Colors.green,
           child: _buildButtonInterior(Icons.thumb_up, '1'),

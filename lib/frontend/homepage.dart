@@ -27,7 +27,8 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     widget.saver.readCounter().then((value) {
       setState(() {
-        print('INITIALIZEING');
+        paperBrain.setCurrentPaperIndex(value);
+        print('LOADING');
       });
     });
   }
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FlatButton(
               onPressed: () {
                 print('SAVE');
-                widget.saver.save();
+                widget.saver.save(paperBrain.getCurrentPaperIndex());
               },
               child: Text('SAVE'),
               color: Colors.white,

@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class Saver {
-  void save() {
-    writeCounter(3);
+  void save(int value) {
+    writeCounter(value);
   }
 
   Future<String> get _localPath async {
@@ -14,6 +14,7 @@ class Saver {
 
   Future<File> get _localFile async {
     final path = await _localPath;
+    print(path);
     return File('$path/counter.txt');
   }
 
