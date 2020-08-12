@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:scilit/backend/paperBrain.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import '../backend/save.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -28,13 +27,14 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     widget.saver.readCounter().then((value) {
       setState(() {
-        paperBrain.setCurrentPaperIndex(value);
+        print('INITIALIZEING');
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    paperBrain.setContext(context);
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -90,52 +90,27 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _getNextPaper() {
-    setState(() {
-      if (paperBrain.getNextPaper()) {
-      } else {
-        Alert(
-                context: context,
-                title: "Out of Papers",
-                desc: "Have Checked All Papers")
-            .show();
-      }
-    });
-  }
-
-  void _getPreviousPaper() {
-    setState(() {
-      if (paperBrain.getPreviousPaper()) {
-      } else {
-        Alert(
-                context: context,
-                title: "First Paper",
-                desc: "Back to the start!")
-            .show();
-      }
-    });
-  }
-
   void cardGood() {
+    print('GOOD');
     approvedPapers.add(paperBrain.getCurrentPaperTitle());
     _setColor(Colors.green[300]);
-    _getNextPaper();
+    paperBrain.getNextPaper();
   }
 
   void cardBad() {
     rejectedPapers.add(paperBrain.getCurrentPaperTitle());
     _setColor(Colors.red[300]);
-    _getNextPaper();
+    paperBrain.getNextPaper();
   }
 
   void cardFlag() {
     flaggedPapers.add(paperBrain.getCurrentPaperTitle());
     _setColor(Colors.amber[300]);
-    _getNextPaper();
+    paperBrain.getNextPaper();
   }
 
   void previousCard() {
-    _getPreviousPaper();
+    paperBrain.getPreviousPaper();
     if (approvedPapers.isNotEmpty &&
         approvedPapers.last == paperBrain.getCurrentPaperTitle()) {
       approvedPapers.removeLast();
@@ -150,8 +125,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void resetColor() {
-    setState(() {
-      _color = Colors.white;
-    });
+    _setColor(Colors.white);
   }
 }

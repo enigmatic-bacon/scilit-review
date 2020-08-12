@@ -1,4 +1,10 @@
+import 'package:flutter/cupertino.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 class PaperBrain {
+  BuildContext _context;
+  int _paperIndex = 0;
+
   List<String> _paperTitles = [
     'Interventions for improving upper limb function after stroke',
     'Differences in myoelectric and body-powered upper-limb prostheses: Systematic literature review',
@@ -507,8 +513,7 @@ class PaperBrain {
     'Muscle length and joint angle influence spinal but not corticospinal excitability to the biceps brachii across forearm postures'
   ];
 
-  int _paperIndex = 0;
-  void setCurrentPaperIndex(int index) => _paperIndex = index;
+  void setContext(BuildContext context) => _context = context;
   int getCurrentPaperIndex() => _paperIndex;
   int getNumPapers() => _paperTitles.length;
   String getCurrentPaperTitle() => _paperTitles[_paperIndex];
@@ -517,6 +522,11 @@ class PaperBrain {
       ++_paperIndex;
       return true;
     }
+    Alert(
+            context: _context,
+            title: "Out of Papers",
+            desc: "Have Checked All Papers")
+        .show();
     return false;
   }
 
@@ -525,6 +535,8 @@ class PaperBrain {
       --_paperIndex;
       return true;
     }
+    Alert(context: _context, title: "First Paper", desc: "Back to the start!")
+        .show();
     return false;
   }
 }
