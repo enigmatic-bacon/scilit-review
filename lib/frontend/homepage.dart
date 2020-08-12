@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scilit/backend/paperTitles.dart';
+import 'package:scilit/backend/paperBrain.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
