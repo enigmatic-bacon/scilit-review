@@ -60,8 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: AnimatedContainer(
         color: _color,
         onEnd: resetColor,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.ease,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   notifyParentBad: cardBad,
                   notifyParentFlag: cardFlag,
                   goBack: previousCard,
+                  paperBrain: paperBrain,
                 ),
               ],
             ),

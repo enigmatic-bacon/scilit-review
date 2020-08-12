@@ -513,6 +513,7 @@ class PaperBrain {
     '[Study on the method of microelectrodes implantation of artificial facial nerve prosthesis in closed mouth of orbicularis oris muscle in monkeys with facial nerve paralysis]',
     'Muscle length and joint angle influence spinal but not corticospinal excitability to the biceps brachii across forearm postures'
   ];
+  // ignore: unused_element
   void _addToCollection() {
     Map<String, dynamic> newDocument;
     for (int i = 0; i < _paperTitles.length; ++i) {
