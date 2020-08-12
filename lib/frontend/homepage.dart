@@ -6,8 +6,11 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import '../backend/save.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key) {
+    print('BUILDING');
+  }
   final String title;
+  final Saver saver = Saver();
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -16,10 +19,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Color _color = Colors.white;
   PaperBrain paperBrain = PaperBrain();
-  Saver saver = Saver();
   List<String> approvedPapers = [];
   List<String> rejectedPapers = [];
   List<String> flaggedPapers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    widget.saver.readCounter().then((value) {
+      setState(() {
+        paperBrain.setCurrentPaperIndex(value);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FlatButton(
               onPressed: () {
                 print('SAVE');
-                saver.save();
+                widget.saver.save();
               },
               child: Text('SAVE'),
               color: Colors.white,

@@ -508,6 +508,7 @@ class PaperBrain {
   ];
 
   int _paperIndex = 0;
+  void setCurrentPaperIndex(int index) => _paperIndex = index;
   int getCurrentPaperIndex() => _paperIndex;
   int getNumPapers() => _paperTitles.length;
   String getCurrentPaperTitle() => _paperTitles[_paperIndex];
