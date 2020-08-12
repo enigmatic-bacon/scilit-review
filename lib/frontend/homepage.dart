@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scilit/backend/paperTitles.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
-import '../backend/scipaper.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -15,11 +14,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Color _color = Colors.white;
-  int _paperIndex = 0;
-  bool _showingTitles = true;
-  List<SciPaper> allPapers = generateSciPapers();
-  List<SciPaper> approvedPapers = [];
-  List<SciPaper> rejectedPapers = [];
+  PaperBrain paperBrain = PaperBrain();
+  List<String> approvedPapers = [];
+  List<String> rejectedPapers = [];
+  List<String> flaggedPapers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +25,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title +
             ' Paper #' +
-            (_paperIndex + 1).toString() +
+            (paperBrain.getCurrentPaperIndex() + 1).toString() +
             '/' +
-            allPapers.length.toString()),
+            paperBrain.getNumPapers().toString()),
       ),
       body: AnimatedContainer(
         color: _color,
@@ -42,36 +40,13 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                if (_showingTitles == true)
-                  SciCard(
-                    text: allPapers[_paperIndex].title,
-                  )
-                else
-                  SciCard(
-                    text: allPapers[_paperIndex].abstract,
-                  ),
-                StreamBuilder(
-                    stream: Firestore.instance
-                        .collection('paper_titles')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData)
-                        return const Text('Loading...');
-                      else {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildDocument(context, snapshot.data.documents[0]),
-                            Text('2'),
-                            Text('3'),
-                            Text('4'),
-                          ],
-                        );
-                      }
-                    }),
+                SciCard(
+                  text: paperBrain.getCurrentPaperTitle(),
+                ),
                 MyBottomBar(
                   notifyParentGood: cardGood,
                   notifyParentBad: cardBad,
+                  notifyParentFlag: cardFlag,
                   goBack: previousCard,
                 ),
               ],
@@ -89,67 +64,67 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _getNextPaper() {
-    if (_paperIndex < allPapers.length - 1) {
-      ++_paperIndex;
-    } else {
-      Alert(
-              context: context,
-              title: "Out of Papers",
-              desc: "Have Checked All Papers")
-          .show();
-    }
+    setState(() {
+      if (paperBrain.getNextPaper()) {
+      } else {
+        Alert(
+                context: context,
+                title: "Out of Papers",
+                desc: "Have Checked All Papers")
+            .show();
+      }
+    });
   }
 
   void _getPreviousPaper() {
-    if (_paperIndex > 0) {
-      --_paperIndex;
-    } else {
-      Alert(context: context, title: "First Paper", desc: "Back to the start!")
-          .show();
-    }
+    setState(() {
+      if (paperBrain.getPreviousPaper()) {
+      } else {
+        Alert(
+                context: context,
+                title: "First Paper",
+                desc: "Back to the start!")
+            .show();
+      }
+    });
   }
 
   void cardGood() {
-    approvedPapers.add(allPapers[_paperIndex]);
+    approvedPapers.add(paperBrain.getCurrentPaperTitle());
     _setColor(Colors.green[300]);
     _getNextPaper();
   }
 
   void cardBad() {
-    rejectedPapers.add(allPapers[_paperIndex]);
+    rejectedPapers.add(paperBrain.getCurrentPaperTitle());
     _setColor(Colors.red[300]);
+    _getNextPaper();
+  }
+
+  void cardFlag() {
+    flaggedPapers.add(paperBrain.getCurrentPaperTitle());
+    _setColor(Colors.amber[300]);
     _getNextPaper();
   }
 
   void previousCard() {
     _getPreviousPaper();
-    if (approvedPapers.last.title == allPapers[_paperIndex].title) {
+    if (approvedPapers.isNotEmpty &&
+        approvedPapers.last == paperBrain.getCurrentPaperTitle()) {
       approvedPapers.removeLast();
-    } else {
+    } else if (rejectedPapers.isNotEmpty &&
+        rejectedPapers.last == paperBrain.getCurrentPaperTitle()) {
       rejectedPapers.removeLast();
+    } else if (flaggedPapers.isNotEmpty &&
+        flaggedPapers.last == paperBrain.getCurrentPaperTitle()) {
+      flaggedPapers.removeLast();
     }
-    _setColor(Colors.amber[300]);
-  }
-
-  void switchToTitles() {
-    setState(() {
-      _showingTitles = true;
-    });
-  }
-
-  void switchToAbstracts() {
-    setState(() {
-      _showingTitles = false;
-    });
+    _setColor(Colors.grey[700]);
   }
 
   void resetColor() {
     setState(() {
       _color = Colors.white;
     });
-  }
-
-  Text _buildDocument(BuildContext context, DocumentSnapshot document) {
-    return Text(document['Yes'].toString());
   }
 }
