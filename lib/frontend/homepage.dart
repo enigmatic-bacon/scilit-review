@@ -49,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FlatButton(
               onPressed: () {
                 print('SAVE');
+                //paperBrain.addToCollection();
                 widget.saver.save(paperBrain.getCurrentPaperIndex());
               },
               child: Text('SAVE'),

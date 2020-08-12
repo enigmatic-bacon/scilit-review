@@ -23,6 +23,8 @@ class MyBottomBar extends StatefulWidget {
 }
 
 class _MyBottomBarState extends State<MyBottomBar> {
+  Map<String, dynamic> snapshots = new Map();
+  List<int> choices = [];
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -39,6 +41,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
         ),
         FloatingActionButton(
           onPressed: () {
+            choices.add(0);
             setState(() {
               widget.notifyParentBad();
             });
@@ -48,6 +51,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
         ),
         FloatingActionButton(
           onPressed: () {
+            choices.add(1);
             setState(() {
               widget.notifyParentFlag();
             });
@@ -57,6 +61,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
         ),
         FloatingActionButton(
           onPressed: () {
+            choices.add(2);
             setState(() {
               widget.notifyParentGood();
             });
@@ -77,8 +82,10 @@ class _MyBottomBarState extends State<MyBottomBar> {
             stream: Firestore.instance.collection('paper_titles').snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
-                return const Text('Loading...');
+                return const Text('0');
               else {
+                snapshots[field] = snapshot;
+
                 return _buildDocument(
                     context,
                     snapshot.data
@@ -88,6 +95,38 @@ class _MyBottomBarState extends State<MyBottomBar> {
             }),
       ],
     );
+  }
+
+//TODO FIND A WAY TO CALL THIS
+  void saveData() {
+    for (int i = 0; i < widget.paperBrain.getCurrentPaperIndex(); ++i) {
+      switch (choices[i]) {
+        case 0:
+          _incrementField(i, 'No');
+          break;
+        case 1:
+          _incrementField(i, 'Maybe');
+          break;
+        case 2:
+          _incrementField(i, 'Yes');
+          break;
+        default:
+      }
+    }
+  }
+
+  Future<void> _incrementField(int index, String field) async {
+    setState(() {
+      Firestore.instance.runTransaction((transaction) async {
+        if (snapshots[field] == null || !snapshots[field].hasData) {
+          return;
+        }
+        print(widget.paperBrain.getCurrentPaperIndex());
+        DocumentSnapshot freshSnap = snapshots[field].data.documents[index];
+        await transaction
+            .update(freshSnap.reference, {field: freshSnap[field] + 1});
+      });
+    });
   }
 
   Text _buildDocument(

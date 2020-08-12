@@ -517,7 +517,7 @@ class PaperBrain {
   void _addToCollection() {
     Map<String, dynamic> newDocument;
     for (int i = 0; i < _paperTitles.length; ++i) {
-      newDocument = {'Maybe': 0, 'No': 0, 'Title': _paperTitles[i], 'Yes': 0};
+      newDocument = {'Maybe': 0, 'No': 0, 'Yes': 0};
       Firestore.instance.collection('paper_titles').add(newDocument);
     }
   }
