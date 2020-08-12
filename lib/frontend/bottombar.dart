@@ -29,17 +29,29 @@ class _MyBottomBarState extends State<MyBottomBar> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         FloatingActionButton(
-          onPressed: widget.goBack,
+          onPressed: () {
+            setState(() {
+              widget.goBack();
+            });
+          },
           backgroundColor: Colors.grey[800],
           child: Icon(Icons.history),
         ),
         FloatingActionButton(
-          onPressed: widget.notifyParentBad,
+          onPressed: () {
+            setState(() {
+              widget.notifyParentBad();
+            });
+          },
           backgroundColor: Colors.red,
           child: _buildButtonInterior(Icons.thumb_down, 'No'),
         ),
         FloatingActionButton(
-          onPressed: widget.notifyParentFlag,
+          onPressed: () {
+            setState(() {
+              widget.notifyParentFlag();
+            });
+          },
           backgroundColor: Colors.amber,
           child: _buildButtonInterior(Icons.flag, 'Maybe'),
         ),
