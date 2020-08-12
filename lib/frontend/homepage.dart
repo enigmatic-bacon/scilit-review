@@ -3,6 +3,7 @@ import 'package:scilit/backend/paperTitles.dart';
 import 'package:scilit/frontend/scicard.dart';
 import 'bottombar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import '../backend/save.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -15,6 +16,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Color _color = Colors.white;
   PaperBrain paperBrain = PaperBrain();
+  Saver saver = Saver();
   List<String> approvedPapers = [];
   List<String> rejectedPapers = [];
   List<String> flaggedPapers = [];
@@ -23,11 +25,24 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title +
-            ' Paper #' +
-            (paperBrain.getCurrentPaperIndex() + 1).toString() +
-            '/' +
-            paperBrain.getNumPapers().toString()),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(widget.title +
+                ' Paper #' +
+                (paperBrain.getCurrentPaperIndex() + 1).toString() +
+                '/' +
+                paperBrain.getNumPapers().toString()),
+            FlatButton(
+              onPressed: () {
+                print('SAVE');
+                saver.save();
+              },
+              child: Text('SAVE'),
+              color: Colors.white,
+            )
+          ],
+        ),
       ),
       body: AnimatedContainer(
         color: _color,
